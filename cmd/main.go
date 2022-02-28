@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	filename = flag.String("config", "config.yaml", "Filename of the config file")
+	filename = flag.String("config", "config.yaml", "filename of the config file")
 )
 
 func main() {
