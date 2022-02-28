@@ -25,6 +25,8 @@ type chat struct {
 	enabled bool
 	timeout time.Time
 	status  brbchat.Status
+
+	lastScene string
 }
 
 func (c *chat) Listen() {
@@ -49,14 +51,16 @@ func (c *chat) Listen() {
 			for _, scene := range c.config.Sources {
 
 				containsKeyword := strings.Contains(message.Message, scene.Keyword)
+				wasLastScene := scene.Name == c.lastScene
 
-				if !keywordFound && containsKeyword {
+				if !keywordFound && containsKeyword && !wasLastScene {
 					sources[scene.Name] = true
 
 					minimum := c.config.Cooldown
 					if scene.Cooldown > 0 {
 						minimum = scene.Cooldown
 					}
+					c.lastScene = scene.Name
 					c.timeout = time.Now().Add(minimum)
 					keywordFound = true
 				} else {
