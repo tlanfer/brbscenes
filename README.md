@@ -28,6 +28,20 @@ sources:
       keyword: '!twiggie'
 ```
 
-In your OBS, set up a BRB scene with the source
+In your OBS, set up a BRB scene with the source as named in the config.
+You can add other sources to the scene and the tool will only toggle those named in the config.
 
-![img.png](docs/obs.png)
+![obs sources](docs/obs.png)
+
+## Running
+
+After the configuration is correct, just start the application. It will run as a tray icon:
+
+![tray icon](docs/trayicon.png)
+
+If OBS is not running, it will try to (re-) connect to OBS every few seconds.
+The top two hearts of the UWU mean OBS is connected, the bottom two mean twitch chat is connected.
+
+
+You can exit the application via right-clicking the tray icon.
+
