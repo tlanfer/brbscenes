@@ -6,7 +6,6 @@ A tool for twitch streamers that lets twitch chat select which brbscreen to show
 
 1. [Go here](https://github.com/tlanfer/brbscenes/releases/tag/latest) and download the latest `brbscenes.exe`
 2. Run the executable once. It will create an example config file named `config.yaml` that will look roughly like this:
-3. 
 
 ```yaml
 channel: alasdair                # What twitch channel to watch
@@ -32,6 +31,7 @@ sources:
 
 In your OBS, set up a BRB scene with the source as named in the config.
 You can add other sources to the scene and the tool will only toggle those named in the config.
+It will trigger no matter where in the message the trigger appears.
 
 ![obs sources](docs/obs.png)
 
