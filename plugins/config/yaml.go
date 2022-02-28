@@ -34,14 +34,14 @@ func (l *loader) Load() (*brbchat.Config, error) {
 			defer file.Close()
 
 			dto.Channel = "alasdair"
-			dto.Minimum = 30 * time.Second
+			dto.Cooldown = 30 * time.Second
 			dto.Obs = brbchat.Obs{
 				BrbScene: "brb",
 				Password: "roflmao",
 				Port:     4444,
 			}
 
-			dto.Scenes = []brbchat.Scene{
+			dto.Sources = []brbchat.Source{
 				{Name: "tetris", Keyword: "!tetris"},
 				{Name: "trover", Keyword: "!trover"},
 				{Name: "worms", Keyword: "!worms"},
@@ -66,7 +66,7 @@ func (l *loader) Load() (*brbchat.Config, error) {
 		return nil, err
 	}
 
-	if dto.Minimum == 0 {
+	if dto.Cooldown == 0 {
 		return nil, fmt.Errorf("missing minimum duration")
 	}
 	if dto.Channel == "" {
@@ -78,7 +78,7 @@ func (l *loader) Load() (*brbchat.Config, error) {
 	if dto.Obs.Port == 0 {
 		return nil, fmt.Errorf("missing obs.port")
 	}
-	if len(dto.Scenes) == 0 {
+	if len(dto.Sources) == 0 {
 		return nil, fmt.Errorf("missing scenes")
 	}
 

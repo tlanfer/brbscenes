@@ -1,7 +1,7 @@
 package brbchat
 
 type Broadcaster interface {
-	EnableSource(scene Scene) error
+	SetupSources(map[string]bool) error
 	OnSceneSwitch() <-chan string
 }
 
