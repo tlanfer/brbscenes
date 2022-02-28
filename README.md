@@ -11,6 +11,8 @@ A tool for twitch streamers that lets twitch chat select which brbscreen to show
 ```yaml
 channel: alasdair                # What twitch channel to watch
 cooldown: 30s                    # Whats the default cooldown, if a screen doesnt have a custom cooldown
+                                 # The cooldown is given as a number with a unit (see https://pkg.go.dev/time#ParseDuration) 
+                                 # for example: 30s, 1m, 1m30s
 obs:
     brb_scene: brb               # On which scene this tool be active?
                                  # If any other scene is active, we ignore all chat messages 
