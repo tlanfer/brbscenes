@@ -43,19 +43,32 @@ func (c *chat) Listen() {
 
 		if c.enabled && time.Now().After(c.timeout) {
 
-			for _, scene := range c.config.Scenes {
-				if strings.Contains(message.Message, scene.Keyword) {
+			keywordFound := false
+			sources := map[string]bool{}
 
-					err := c.broadcaster.EnableSource(scene)
-					if err != nil {
-						log.Printf("failed to enable scene %v. Is obs running?", scene.Name)
-						return
-					}
-					minimum := c.config.Minimum
-					if scene.Minimum > 0 {
-						minimum = scene.Minimum
+			for _, scene := range c.config.Sources {
+
+				containsKeyword := strings.Contains(message.Message, scene.Keyword)
+
+				if !keywordFound && containsKeyword {
+					sources[scene.Name] = true
+
+					minimum := c.config.Cooldown
+					if scene.Cooldown > 0 {
+						minimum = scene.Cooldown
 					}
 					c.timeout = time.Now().Add(minimum)
+					keywordFound = true
+				} else {
+					sources[scene.Name] = false
+				}
+			}
+
+			if keywordFound {
+				err := c.broadcaster.SetupSources(sources)
+				if err != nil {
+					log.Printf("failed to change scenes. Is obs running? %v", err.Error())
+					return
 				}
 			}
 

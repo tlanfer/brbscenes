@@ -59,8 +59,8 @@ func (s *status) icon() {
 
 func (s *status) onReady() {
 	st.SetTemplateIcon(alasuwuOffOff, alasuwuOffOff)
-	st.SetTitle("Brb Scenes")
-	st.SetTooltip("Brb Scenes")
+	st.SetTitle("Brb Source")
+	st.SetTooltip("Brb Source")
 
 	item := st.AddMenuItem("Quit", "Quit")
 

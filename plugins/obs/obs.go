@@ -32,7 +32,7 @@ func New(config *brbchat.Config, status brbchat.Status) (brbchat.Broadcaster, er
 	status.BroadcasterConnected(true)
 
 	go o.watchdog()
-	
+
 	return &o, nil
 }
 
@@ -60,8 +60,7 @@ func (o *obs) OnSceneSwitch() <-chan string {
 	return o.channel
 }
 
-func (o *obs) EnableSource(source brbchat.Scene) error {
-
+func (o *obs) SetupSources(items map[string]bool) error {
 	if !o.ws.Connected() {
 		o.status.BroadcasterConnected(false)
 		err := o.ws.Connect()
@@ -81,16 +80,34 @@ func (o *obs) EnableSource(source brbchat.Scene) error {
 		panic(err)
 	}
 
-	for _, item := range sceneItemList.SceneItems {
-		sourceName := item["sourceName"].(string)
-		sourceId := int(item["itemId"].(float64))
+	for source, show := range items {
 
-		en := sourceName == source.Name
+		for _, item := range sceneItemList.SceneItems {
+			sourceName := item["sourceName"].(string)
+			sourceId := int(item["itemId"].(float64))
 
-		r := obsws.NewSetSceneItemRenderRequest(o.config.Obs.BrbScene, sourceName, sourceId, en)
-		if err := r.Send(o.ws); err != nil {
-			log.Fatal(err)
+			if sourceName == source {
+				r := obsws.NewSetSceneItemRenderRequest(o.config.Obs.BrbScene, sourceName, sourceId, show)
+				if err := r.Send(o.ws); err != nil {
+					return err
+				}
+			}
 		}
+
+	}
+
+	return nil
+}
+
+func (o *obs) EnableSource(source brbchat.Source) error {
+
+	if !o.ws.Connected() {
+		o.status.BroadcasterConnected(false)
+		err := o.ws.Connect()
+		if err != nil {
+			return fmt.Errorf("failed to connect to obs: %w", err)
+		}
+		o.status.BroadcasterConnected(true)
 	}
 
 	return nil
