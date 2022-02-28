@@ -7,10 +7,10 @@ type ConfigLoader interface {
 }
 
 type Config struct {
-	Channel string        `yaml:"channel"`
-	Minimum time.Duration `yaml:"min_duration"`
-	Obs     Obs           `yaml:"obs"`
-	Scenes  []Scene       `yaml:"scenes"`
+	Channel  string        `yaml:"channel"`
+	Cooldown time.Duration `yaml:"cooldown"`
+	Obs      Obs           `yaml:"obs"`
+	Sources  []Source      `yaml:"sources"`
 }
 
 type Obs struct {
@@ -19,8 +19,8 @@ type Obs struct {
 	Port     int    `yaml:"port"`
 }
 
-type Scene struct {
-	Name    string        `yaml:"name"`
-	Keyword string        `yaml:"keyword"`
-	Minimum time.Duration `yaml:"min_duration,omitempty"`
+type Source struct {
+	Name     string        `yaml:"name"`
+	Keyword  string        `yaml:"keyword"`
+	Cooldown time.Duration `yaml:"cooldown,omitempty"`
 }
